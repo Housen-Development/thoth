@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>部品詳細</title>
-</head>
-<body>
-<h1>{{ parts.name }}</h1>
-<p>仮のページです。</p>
-</body>
-</html>
+{% extends 'parts_manager/base.html' %}
+
+{% block content %}
+    <h2>部品詳細</h2>
+    <h3>{{ parts.name }}</h3>
+    <p>仮のページです。</p>
+{% endblock %}

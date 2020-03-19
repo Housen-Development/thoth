@@ -1,14 +1,18 @@
 from django.shortcuts import get_object_or_404, render
+from django.views import generic
 
 from .models import Parts, PartsInOut
 
 
-def parts_list(request):
-    partslist = PartsInOut.objects.order_by('parts__name')
-    context = {'partslist': partslist}
-    return render(request, 'parts_manager/parts_list.html', context)
+class PartsListView(generic.ListView):
+    template_name = 'parts_manager/parts_list.html'
+    context_object_name = 'partslist'
+
+    def get_queryset(self):
+        """クエリセットを用意"""
+        return PartsInOut.objects.all()
 
 
-def parts_detail(request, parts_id):
-    parts = get_object_or_404(Parts, pk=parts_id)
-    return render(request, 'parts_manager/parts_detail.html', {'parts': parts})
+class PartsDetailView(generic.DetailView):
+    model = Parts
+    template_name = 'parts_manager/parts_detail.html'
