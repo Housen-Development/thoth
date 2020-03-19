@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>部品在庫一覧</title>
+</head>
+<body>
+{% if partslist %}
+    <ul>
+        {% for parts in partslist %}
+            <li><a href="{% url 'parts_manager:parts_detail' parts.id %}">{{ parts.parts.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}</body>
+</html>
