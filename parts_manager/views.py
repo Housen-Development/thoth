@@ -6,7 +6,7 @@ from .models import Parts, PartsInOut
 
 class PartsListView(generic.ListView):
     template_name = 'parts_manager/parts_list.html'
-    context_object_name = 'partslist'
+    context_object_name = 'parts_list'
 
     def get_queryset(self):
         """保管場所と部品でgroup byして在庫を集計"""

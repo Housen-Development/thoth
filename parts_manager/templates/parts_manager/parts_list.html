@@ -1,11 +1,12 @@
 {% extends 'parts_manager/base.html' %}
+{% load humanize %}
 
 {% block content %}
-    {% if partslist %}
+    {% if parts_list %}
         <h2>在庫一覧</h2>
         <table class="table table-hover">
-            <thead>
-            <tr class="table-dark">
+            <thead class="thead-light">
+            <tr>
                 <th scope="col">#</th>
                 <th scope="col">保管場所コード</th>
                 <th scope="col">保管場所</th>
@@ -15,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for parts in partslist %}
+            {% for parts in parts_list %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <th>{{ parts.location__code }}</th>
@@ -24,7 +25,7 @@
                     <th>
                         <a href="{% url 'parts_manager:parts_detail' parts.parts_id %}">{{ parts.parts__name }}</a>
                     </th>
-                    <th>{{ parts.stock }}</th>
+                    <th>{{ parts.stock|intcomma }}</th>
                 </tr>
             {% endfor %}
             </tbody>
