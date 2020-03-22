@@ -21,12 +21,12 @@ class Location(models.Model):
 class PartsInOut(models.Model):
     parts = models.ForeignKey(Parts, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    warehousing = models.IntegerField('入庫日', default=0)
-    shipping = models.IntegerField('出庫日', default=0)
+    warehousing = models.IntegerField('入庫数', default=0)
+    shipping = models.IntegerField('出庫数', default=0)
     input_date = models.DateTimeField('入力日')
 
     class Meta:
-        ordering = ['parts__name']
+        ordering = ['parts__code']
 
     def __str__(self):
-        return self.parts.name + '/' + self.location.name
+        return f'{self.location.name} - {self.parts.name}'

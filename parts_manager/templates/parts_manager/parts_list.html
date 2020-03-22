@@ -11,29 +11,25 @@
                 <th scope="col">保管場所</th>
                 <th scope="col">部品コード</th>
                 <th scope="col">部品名</th>
-                <th scope="col">入庫数</th>
-                <th scope="col">出庫数</th>
-                <th scope="col">入力日</th>
+                <th scope="col">在庫数</th>
             </tr>
             </thead>
             <tbody>
             {% for parts in partslist %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <th>{{ parts.location.code }}</th>
-                    <th>{{ parts.location.name }}</th>
-                    <th>{{ parts.parts.code }}</th>
+                    <th>{{ parts.location__code }}</th>
+                    <th>{{ parts.location__name }}</th>
+                    <th>{{ parts.parts__code }}</th>
                     <th>
-                        <a href="{% url 'parts_manager:parts_detail' parts.id %}">{{ parts.parts.name }}</a>
+                        <a href="{% url 'parts_manager:parts_detail' parts.parts_id %}">{{ parts.parts__name }}</a>
                     </th>
-                    <th>{{ parts.warehousing }}</th>
-                    <th>{{ parts.shipping }}</th>
-                    <th>{{ parts.input_date|date:"Y-m-d" }}</th>
+                    <th>{{ parts.stock }}</th>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>No polls are available.</p>
+        <p>No parts are available.</p>
     {% endif %}
 {% endblock %}
