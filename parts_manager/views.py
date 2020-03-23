@@ -1,10 +1,7 @@
 from django.views import generic
 from django.db.models import F, Q, Sum
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
 
 from .models import Parts, PartsInOut
-from .forms import ExtractionForm
 
 
 class PartsListView(generic.ListView):
@@ -25,6 +22,16 @@ class PartsDetailView(generic.DetailView):
 
 
 class PartsInOutHistoryView(generic.ListView):
+    # https://noumenon-th.net/programming/2019/12/18/django-search/ 参考
     model = PartsInOut
-    context_object_name = 'parts_list'
     template_name = 'parts_manager/inout_history.html'
+    context_object_name = 'parts_list'
+
+    def get_queryset(self):
+        q_word = self.request.GET.get('query')
+
+        if q_word:
+            parts_list = PartsInOut.objects.filter(Q(parts__code__icontains=q_word))
+        else:
+            parts_list = PartsInOut.objects.all()
+        return parts_list

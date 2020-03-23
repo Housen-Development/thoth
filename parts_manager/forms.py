@@ -1,5 +1,5 @@
 from django import forms
 
 
-class ExtractionForm(forms.Form):
-    inout_date = forms.DateField(label='入出庫日付')
+class PartsInOutForm(forms.Form):
+    your_name = forms.CharField(label='Your name', max_length=100)
