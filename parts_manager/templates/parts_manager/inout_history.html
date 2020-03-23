@@ -4,29 +4,33 @@
 {% block content %}
 
     {% if parts_list %}
-        <h2>在庫一覧</h2>
+        <h2>入出庫履歴</h2>
         <table class="table table-hover">
             <thead class="thead-light">
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">入出庫日付</th>
                 <th scope="col">保管場所コード</th>
                 <th scope="col">保管場所</th>
                 <th scope="col">部品コード</th>
                 <th scope="col">部品名</th>
-                <th scope="col">在庫数</th>
+                <th scope="col">入庫数量</th>
+                <th scope="col">出庫数量</th>
             </tr>
             </thead>
             <tbody>
             {% for parts in parts_list %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <th>{{ parts.location__code }}</th>
-                    <th>{{ parts.location__name }}</th>
-                    <th>{{ parts.parts__code }}</th>
+                    <th>{{ parts.input_date|date:"SHORT_DATE_FORMAT" }}</th>
+                    <th>{{ parts.location.code }}</th>
+                    <th>{{ parts.location.name }}</th>
+                    <th>{{ parts.parts.code }}</th>
                     <th>
-                        <a href="{% url 'parts_manager:detail' parts.parts_id %}">{{ parts.parts__name }}</a>
+                        <a href="{% url 'parts_manager:detail' parts.parts_id %}">{{ parts.parts.name }}</a>
                     </th>
-                    <th>{{ parts.stock|intcomma }}</th>
+                    <th>{{ parts.warehousing|intcomma }}</th>
+                    <th>{{ parts.shipping|intcomma }}</th>
                 </tr>
             {% endfor %}
             </tbody>

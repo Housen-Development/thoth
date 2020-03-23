@@ -5,5 +5,6 @@ from . import views
 app_name = 'parts_manager'
 urlpatterns = [
     path('', views.PartsListView.as_view(), name='parts_list'),
-    path('<int:pk>/', views.PartsDetailView.as_view(), name='parts_detail')
+    path('<int:pk>/', views.PartsDetailView.as_view(), name='detail'),
+    path('inout_history/', views.PartsInOutHistoryView.as_view(), name='inout_history'),
 ]

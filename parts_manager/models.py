@@ -1,4 +1,7 @@
+import datetime
+
 from django.db import models
+from django.utils import timezone
 
 
 class Parts(models.Model):
@@ -23,10 +26,14 @@ class PartsInOut(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     warehousing = models.IntegerField('入庫数', default=0)
     shipping = models.IntegerField('出庫数', default=0)
-    input_date = models.DateTimeField('入力日')
+    input_date = models.DateTimeField('入力日', auto_now_add=True)
 
     class Meta:
         ordering = ['parts__code']
 
     def __str__(self):
         return f'{self.location.name} - {self.parts.name}'
+
+    def is_input_date_future(self):
+        """ input_dateが現在の時間より未来の場合 :return: True """
+        return self.input_date > timezone.now()
