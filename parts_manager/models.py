@@ -24,9 +24,9 @@ class Location(models.Model):
 class PartsInOut(models.Model):
     parts = models.ForeignKey(Parts, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    warehousing = models.IntegerField('入庫数', default=0)
-    shipping = models.IntegerField('出庫数', default=0)
-    input_date = models.DateTimeField('入力日', auto_now_add=True)
+    warehousing = models.PositiveIntegerField('入庫数', default=0)
+    shipping = models.PositiveIntegerField('出庫数', default=0)
+    last_updated = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['parts__code']
@@ -36,4 +36,4 @@ class PartsInOut(models.Model):
 
     def is_input_date_future(self):
         """ input_dateが現在の時間より未来の場合 :return: True """
-        return self.input_date > timezone.now()
+        return self.last_updated > timezone.now()

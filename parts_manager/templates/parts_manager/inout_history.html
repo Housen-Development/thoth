@@ -27,7 +27,7 @@
             {% for parts in parts_list %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <th>{{ parts.input_date|date:"SHORT_DATE_FORMAT" }}</th>
+                    <th>{{ parts.last_updated|date:"SHORT_DATE_FORMAT" }}</th>
                     <th>{{ parts.location.code }}</th>
                     <th>{{ parts.location.name }}</th>
                     <th>{{ parts.parts.code }}</th>

@@ -31,7 +31,8 @@ class PartsInOutHistoryView(generic.ListView):
         q_word = self.request.GET.get('query')
 
         if q_word:
-            parts_list = PartsInOut.objects.filter(Q(parts__code__icontains=q_word))
+            parts_list = PartsInOut.objects.filter(
+                Q(parts__code__icontains=q_word) | Q(parts__name__icontains=q_word))
         else:
             parts_list = PartsInOut.objects.all()
         return parts_list

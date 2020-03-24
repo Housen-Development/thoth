@@ -1,5 +1,7 @@
 from django import forms
 
+from .models import PartsInOut
 
-class PartsInOutForm(forms.Form):
-    your_name = forms.CharField(label='Your name', max_length=100)
+
+class ExtractionForm(forms.Form):
+    keyword = forms.CharField(initial='', label='キーワード', required=False)
