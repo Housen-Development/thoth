@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Parts(models.Model):
@@ -19,8 +20,8 @@ class Location(models.Model):
 
 
 class PartsInOut(models.Model):
-    parts = models.ForeignKey(Parts, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    parts = models.ForeignKey(Parts, on_delete=models.CASCADE)
     warehousing = models.PositiveIntegerField('入庫数', default=0)
     shipping = models.PositiveIntegerField('出庫数', default=0)
     last_updated = models.DateTimeField(auto_now_add=True)
@@ -30,3 +31,6 @@ class PartsInOut(models.Model):
 
     def __str__(self):
         return f'{self.location.name} - {self.parts.name}'
+
+    def get_absolute_url(self):
+        return reverse()

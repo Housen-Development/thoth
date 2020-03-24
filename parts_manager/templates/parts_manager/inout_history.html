@@ -26,7 +26,9 @@
             <tbody>
             {% for parts in parts_list %}
                 <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
+                    <th scope="row">
+                        <a href="{% url 'parts_manager:edit_inout_history' parts.id %}">{{ forloop.counter }}</a>
+                    </th>
                     <th>{{ parts.last_updated|date:"SHORT_DATE_FORMAT" }}</th>
                     <th>{{ parts.location.code }}</th>
                     <th>{{ parts.location.name }}</th>
