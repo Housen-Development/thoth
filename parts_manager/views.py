@@ -47,7 +47,7 @@ class EditPartsInOutFormView(View):
     initial = {
         'key': 'value'
     }
-    template_name = 'edit_inout_history.html'
+    template_name = 'parts_manager/edit_inout_history.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
