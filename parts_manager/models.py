@@ -1,7 +1,4 @@
-import datetime
-
 from django.db import models
-from django.utils import timezone
 
 
 class Parts(models.Model):
@@ -33,7 +30,3 @@ class PartsInOut(models.Model):
 
     def __str__(self):
         return f'{self.location.name} - {self.parts.name}'
-
-    def is_input_date_future(self):
-        """ input_dateが現在の時間より未来の場合 :return: True """
-        return self.last_updated > timezone.now()
