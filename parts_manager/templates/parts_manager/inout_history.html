@@ -1,12 +1,15 @@
 {% extends 'parts_manager/base.html' %}
 {% load humanize %}
 
-{% block content %}
+{% block page_title %}
     <h2>入出庫履歴</h2>
+{% endblock %}
 
-    <form action="" method="get">
-        <input name="query" value="{{ request.GET.query }}" type="text">
-        <input class="btn btn-primary" type="submit" value="検索">
+{% block content %}
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn btn-success">Submit</button>
     </form>
 
     {% if parts_list %}
@@ -29,7 +32,7 @@
                     <th scope="row">
                         <a href="{% url 'parts_manager:edit_inout_history' parts.id %}">{{ forloop.counter }}</a>
                     </th>
-                    <th>{{ parts.last_updated|date:"SHORT_DATE_FORMAT" }}</th>
+                    <th>{{ parts.created|date:"SHORT_DATE_FORMAT" }}</th>
                     <th>{{ parts.location.code }}</th>
                     <th>{{ parts.location.name }}</th>
                     <th>{{ parts.parts.code }}</th>

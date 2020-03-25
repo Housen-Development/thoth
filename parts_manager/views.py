@@ -1,16 +1,18 @@
+from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views import generic, View
+from django.views.generic.edit import FormMixin
 from django.db.models import F, Q, Sum
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect
 
 from .models import Parts, PartsInOut
-from .forms import PartsInOutForm
+from .forms import ExtractionForm
 
 
 class PartsListView(generic.ListView):
     """在庫一覧。保管場所と部品でgroup byして在庫を集計。"""
     template_name = 'parts_manager/parts_list.html'
-    context_object_name = 'parts_list'
+    context_object_name = 'parts_list'  # テンプレート側で参照するオブジェクト名
 
     def get_queryset(self):
         return (PartsInOut.objects.values('location', 'parts')
@@ -20,16 +22,37 @@ class PartsListView(generic.ListView):
 
 
 class PartsDetailView(generic.DetailView):
-    model = Parts
     template_name = 'parts_manager/detail.html'
+    model = Parts
 
 
-class PartsInOutHistoryView(generic.ListView):
-    # https://noumenon-th.net/programming/2019/12/18/django-search/ 参考
-    """入出庫履歴"""
-    model = PartsInOut
+class PartsInOutHistoryView(generic.ListView, FormMixin):
+    """入出庫履歴と抽出フォーム"""
     template_name = 'parts_manager/inout_history.html'
+    model = PartsInOut
+    form_class = ExtractionForm
+    success_url = '/parts/inout_history'
     context_object_name = 'parts_list'
+
+    # def get(self, request, *args, **kwargs):
+    #     self.object = None
+    #     return super().get(request, *args, **kwargs)
+
+    # def post(self, request, *args, **kwargs):
+    #     self.object = None
+    #     self.object_list = self.get_queryset()
+    #     form = self.get_form()
+    #     if form.is_valid():
+    #         return self.form_valid(form)
+    #     else:
+    #         return self.form_invalid(form)
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        # FormView inherits TemplateResponseMixin so template_name can be used here.
+        # The default implementation for form_valid() simply redirects to the success_url.
+        return super().form_valid(form)
 
     def get_queryset(self):
         q_word = self.request.GET.get('query')
@@ -42,21 +65,34 @@ class PartsInOutHistoryView(generic.ListView):
         return parts_list
 
 
-class EditPartsInOutFormView(View):
-    form_class = PartsInOutForm
-    initial = {
-        'key': 'value'
-    }
+class PartsInOutCreateView(generic.CreateView):
+    """入出庫履歴 新規作成"""
+    model = PartsInOut
+    fields = ['created', 'location', 'parts', 'warehousing', 'shipping']
+
+
+class PartsInOutUpdateView(generic.UpdateView):
+    """入出庫履歴 編集"""
     template_name = 'parts_manager/edit_inout_history.html'
+    model = PartsInOut
+    fields = ['created', 'location', 'parts', 'warehousing', 'shipping']
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
+    # pk_url_kwarg = 'parts_inout_pk'  # URLConfでpk以外を指定したとき？
+    # context_object_name = 'parts_inout'
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            # <process form cleaned data>
-            return HttpResponseRedirect('/success/')
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(id=self.kwargs['pk'])
 
-        return render(request, self.template_name, {'form': form})
+    def form_valid(self, form):
+        updates = form.save(commit=False)
+        updates.updated = timezone.now()
+        updates.save()
+        return redirect('/parts/inout_history/')
+
+
+class PartsInOutDeleteView(generic.DeleteView):
+    """入出庫履歴 削除"""
+    # https://docs.djangoproject.com/en/3.0/topics/class-based-views/generic-editing/
+    model = PartsInOut
+    success_url = reverse_lazy('inout_history')

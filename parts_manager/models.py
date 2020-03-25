@@ -1,5 +1,5 @@
 from django.db import models
-from django.urls import reverse
+from django.utils import timezone
 
 
 class Parts(models.Model):
@@ -22,15 +22,13 @@ class Location(models.Model):
 class PartsInOut(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     parts = models.ForeignKey(Parts, on_delete=models.CASCADE)
-    warehousing = models.PositiveIntegerField('入庫数', default=0)
-    shipping = models.PositiveIntegerField('出庫数', default=0)
-    last_updated = models.DateTimeField(auto_now_add=True)
+    warehousing = models.IntegerField('入庫数', default=0)
+    shipping = models.IntegerField('出庫数', default=0)
+    created = models.DateTimeField('作成日', default=timezone.now)
+    updated = models.DateTimeField('更新日', auto_now=True)
 
     class Meta:
         ordering = ['parts__code']
 
     def __str__(self):
         return f'{self.location.name} - {self.parts.name}'
-
-    def get_absolute_url(self):
-        return reverse()
