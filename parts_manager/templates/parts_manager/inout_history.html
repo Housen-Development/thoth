@@ -39,8 +39,8 @@
                     <th>
                         <a href="{% url 'parts_manager:detail' parts.parts_id %}">{{ parts.parts.name }}</a>
                     </th>
-                    <th>{{ parts.warehousing|intcomma }}</th>
-                    <th>{{ parts.shipping|intcomma }}</th>
+                    <th class="text-right">{{ parts.warehousing|intcomma }}</th>
+                    <th class="text-right">{{ parts.shipping|intcomma }}</th>
                 </tr>
             {% endfor %}
             </tbody>

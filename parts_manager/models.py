@@ -28,7 +28,7 @@ class PartsInOut(models.Model):
     updated = models.DateTimeField('更新日', auto_now=True)
 
     class Meta:
-        ordering = ['parts__code']
+        ordering = ['-created']
 
     def __str__(self):
         return f'{self.location.name} - {self.parts.name}'

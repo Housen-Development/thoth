@@ -26,7 +26,7 @@
                     <th>
                         <a href="{% url 'parts_manager:detail' parts.parts_id %}">{{ parts.parts__name }}</a>
                     </th>
-                    <th>{{ parts.stock|intcomma }}</th>
+                    <th class="text-right">{{ parts.stock|intcomma }}</th>
                 </tr>
             {% endfor %}
             </tbody>
