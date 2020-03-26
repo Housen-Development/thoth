@@ -24,7 +24,7 @@
                     <th>{{ parts.location__name }}</th>
                     <th>{{ parts.parts__code }}</th>
                     <th>
-                        <a href="{% url 'parts_manager:detail' parts.parts_id %}">{{ parts.parts__name }}</a>
+                        <a href="{% url 'parts-manager:detail' parts.parts_id %}">{{ parts.parts__name }}</a>
                     </th>
                     <th class="text-right">{{ parts.stock|intcomma }}</th>
                 </tr>

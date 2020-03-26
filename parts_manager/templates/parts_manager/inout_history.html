@@ -30,14 +30,14 @@
             {% for parts in parts_list %}
                 <tr>
                     <th scope="row">
-                        <a href="{% url 'parts_manager:edit_inout_history' parts.id %}">{{ forloop.counter }}</a>
+                        <a href="{% url 'parts-manager:edit-inout-history' parts.id %}">{{ forloop.counter }}</a>
                     </th>
                     <th>{{ parts.created|date:"SHORT_DATE_FORMAT" }}</th>
                     <th>{{ parts.location.code }}</th>
                     <th>{{ parts.location.name }}</th>
                     <th>{{ parts.parts.code }}</th>
                     <th>
-                        <a href="{% url 'parts_manager:detail' parts.parts_id %}">{{ parts.parts.name }}</a>
+                        <a href="{% url 'parts-manager:detail' parts.parts_id %}">{{ parts.parts.name }}</a>
                     </th>
                     <th class="text-right">{{ parts.warehousing|intcomma }}</th>
                     <th class="text-right">{{ parts.shipping|intcomma }}</th>
